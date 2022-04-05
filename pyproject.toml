@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "sphinxcontrib-mixed-builder"
+version = "0.1.0"
+description = "Generate mixed contents by multiple bulders on Sphinx"
+authors = ["Kazuya Takei <myself@attakei.net>"]
+license = "Apache-2.0"
+packages = [
+    { include = "sphinxcontrib" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Sphinx = "*"
+
+[tool.poetry.dev-dependencies]
+sphinx-revealjs = "^1.4.6"
+sphinx-rtd-theme = "^1.0.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
