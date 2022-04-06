@@ -5,9 +5,15 @@ project = "sphinxcontrib-mixer"
 copyright = "2022, Kazuya Takei"
 author = "Kazuya Takei"
 release = "0.1.0"
+language = "ja"
 
 # -- General configuration
-extensions = ["sphinxcontrib.mixed_builder", "sphinx_revealjs", "sphinx_rtd_theme"]
+extensions = [
+    "sphinx.ext.intersphinx",
+    "sphinxcontrib.mixed_builder",
+    "sphinx_revealjs",
+    "sphinx_rtd_theme",
+]
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
@@ -16,13 +22,39 @@ html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
 
 # -- Options for REVEALJS output
-revealjs_context = {}
+revealjs_static_path = ["_static"]
+revealjs_style_theme = "black"
+revealjs_script_conf = {
+    "controls": True,
+    "progress": True,
+    "history": True,
+    "center": True,
+    "transition": "none",
+}
+revealjs_script_plugins = [
+    {
+        "name": "RevealHighlight",
+        "src": "revealjs4/plugin/highlight/highlight.js",
+    },
+]
+revealjs_css_files = [
+    "revealjs4/plugin/highlight/zenburn.css",
+]
 
 # -- Options for MIXED output
 mixed_builders = ["html", "revealjs"]
 mixed_rules = [
     {
-        "docname": "test",
+        "docname": "slides/introduction",
         "builder": "revealjs",
     }
 ]
+
+
+def setup(app):
+    app.add_object_type(
+        "confval",
+        "confval",
+        objname="configuration value",
+        indextemplate="pair: %s; configuration value",
+    )
