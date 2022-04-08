@@ -55,7 +55,7 @@ class MixedBuilder(Builder):
         rules = self.get_builder_config("rules", "mixed")
         target = None
         for rule in rules:
-            if "docname" in rule and rule["docname"] == docname:
+            if "equal" in rule and rule["equal"] == docname:
                 target = rule["builder"]
                 break
         logger.debug(f"'{docname} is written by '{target or 'DEFAULT'}'")

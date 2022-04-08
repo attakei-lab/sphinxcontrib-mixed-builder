@@ -45,7 +45,7 @@ revealjs_css_files = [
 mixed_builders = ["html", "revealjs"]
 mixed_rules = [
     {
-        "docname": "slides/introduction",
+        "equal": "slides/introduction",
         "builder": "revealjs",
     }
 ]

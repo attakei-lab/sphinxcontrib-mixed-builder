@@ -36,7 +36,7 @@ After configure, run ``make mixed``
    mixed_builders = ["html", "revealjs"]
    mixed_rules = [
        {
-           "file": "index",
+           "equal": "index",
            "builder": "html",
        },
        {
