@@ -19,7 +19,7 @@ Installation
 
 .. code-block:: console
 
-   pip install git+https://github.com/attakei-lab/sphinxcontrib-mixed-builder
+   pip install --find-links=https://github.com/attakei-lab/sphinxcontrib-mixed-builder/releases sphinxcontrib-mixed-builder
 
 Usage
 =====
