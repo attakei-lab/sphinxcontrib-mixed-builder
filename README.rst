@@ -39,7 +39,6 @@ After configure, run ``make mixed``
            "equal": "index",
            "builder": "html",
        },
-       # TODO: Not implemented
        {
            "start": "slides/",
            "builder": "revaljs"

@@ -51,11 +51,17 @@ class MixedBuilder(Builder):
         for builder in self.builders.values():
             builder.write_doc_serialized(docname, doctree)
 
-    def write_doc(self, docname, doctree):
+    def write_doc(self, docname: str, doctree):
         rules = self.get_builder_config("rules", "mixed")
         target = None
         for rule in rules:
             if "equal" in rule and rule["equal"] == docname:
+                target = rule["builder"]
+                break
+            if "start" in rule and docname.startswith(rule["start"]):
+                target = rule["builder"]
+                break
+            if "end" in rule and docname.endswith(rule["end"]):
                 target = rule["builder"]
                 break
         logger.debug(f"'{docname} is written by '{target or 'DEFAULT'}'")

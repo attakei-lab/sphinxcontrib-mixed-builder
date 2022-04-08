@@ -42,10 +42,10 @@ revealjs_css_files = [
 ]
 
 # -- Options for MIXED output
-mixed_builders = ["html", "revealjs"]
+mixed_builders = ["dirhtml", "revealjs"]
 mixed_rules = [
     {
-        "equal": "slides/introduction",
+        "start": "slides/",
         "builder": "revealjs",
     }
 ]
