@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sphinxcontrib-mixed-builder"
-version = "0.3.0"
+version = "0.3.1"
 description = "Generate mixed contents by multiple bulders on Sphinx"
 authors = ["Kazuya Takei <myself@attakei.net>"]
 license = "Apache-2.0"
