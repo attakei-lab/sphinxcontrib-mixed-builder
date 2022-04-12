@@ -4,7 +4,7 @@
 project = "sphinxcontrib-mixer"
 copyright = "2022, Kazuya Takei"
 author = "Kazuya Takei"
-release = "0.2.0"
+release = "0.3.0"
 language = "ja"
 
 # -- General configuration
