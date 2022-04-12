@@ -1,3 +1,4 @@
+from copy import deepcopy
 from typing import Dict
 
 from sphinx.application import Sphinx
@@ -17,15 +18,19 @@ class MixedBuilder(Builder):
     def __init__(self, app: Sphinx):
         super().__init__(app)
         # Init sub-builders
+        config = app.config  # Keep origin config
         for name in self.get_builder_config("builders", "mixed"):
             builder_class = app.registry.builders[name]
             if not issubclass(builder_class, StandaloneHTMLBuilder):
                 msg = "MixedBuilder accepts only html-based builders"
                 logger.error(msg)
                 raise ValueError(msg)
+            # To avoid side-effect by pass to sub-builders
+            app.config = deepcopy(app.config)
             self.builders[name] = app.create_builder(name)
             if self.defult_builder is None:
                 self.defult_builder = self.builders[name]
+        app.config = config  # Recover origin
 
     def set_environment(self, env):
         super().set_environment(env)
