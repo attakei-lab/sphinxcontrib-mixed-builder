@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 class MixedBuilder(Builder):
     name = "mixed"
 
-    defult_builder: StandaloneHTMLBuilder = None
+    default_builder: StandaloneHTMLBuilder = None
     builders: Dict[str, StandaloneHTMLBuilder] = {}
 
     def __init__(self, app: Sphinx):
@@ -28,8 +28,8 @@ class MixedBuilder(Builder):
             # To avoid side-effect by pass to sub-builders
             app.config = deepcopy(app.config)
             self.builders[name] = app.create_builder(name)
-            if self.defult_builder is None:
-                self.defult_builder = self.builders[name]
+            if self.default_builder is None:
+                self.default_builder = self.builders[name]
         app.config = config  # Recover origin
 
     def set_environment(self, env):
@@ -40,17 +40,17 @@ class MixedBuilder(Builder):
     def init(self):
         for builder in self.builders.values():
             builder.init()
-        self.templates = self.defult_builder.templates
+        self.templates = self.default_builder.templates
 
     def get_outdated_docs(self):
-        return self.defult_builder.get_outdated_docs()
+        return self.default_builder.get_outdated_docs()
 
     def prepare_writing(self, docnames):
         for builder in self.builders.values():
             builder.prepare_writing(docnames)
 
     def get_target_uri(self, docname, typ=None):
-        return self.defult_builder.get_target_uri(docname, typ)
+        return self.default_builder.get_target_uri(docname, typ)
 
     def write_doc_serialized(self, docname, doctree):
         for builder in self.builders.values():
@@ -71,7 +71,7 @@ class MixedBuilder(Builder):
                 break
         logger.debug(f"'{docname} is written by '{target or 'DEFAULT'}'")
         if target is None:
-            self.defult_builder.write_doc(docname, doctree)
+            self.default_builder.write_doc(docname, doctree)
         elif target in self.builders:
             self.builders[target].write_doc(docname, doctree)
         else:
