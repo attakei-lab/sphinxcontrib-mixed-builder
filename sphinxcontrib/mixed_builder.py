@@ -39,7 +39,9 @@ class MixedBuilder(Builder):
 
     def init(self):
         for builder in self.builders.values():
+            self.app.builder = builder
             builder.init()
+            self.app.builder = self
         self.templates = self.default_builder.templates
 
     def get_outdated_docs(self):
@@ -47,44 +49,53 @@ class MixedBuilder(Builder):
 
     def prepare_writing(self, docnames):
         for builder in self.builders.values():
+            self.app.builder = builder
             builder.prepare_writing(docnames)
+            self.app.builder = self
 
     def get_target_uri(self, docname, typ=None):
         return self.default_builder.get_target_uri(docname, typ)
 
-    def write_doc_serialized(self, docname, doctree):
-        for builder in self.builders.values():
-            builder.write_doc_serialized(docname, doctree)
-
-    def write_doc(self, docname: str, doctree):
+    def get_builder(self, docname: str) -> StandaloneHTMLBuilder:
         rules = self.get_builder_config("rules", "mixed")
         target = None
         for rule in rules:
             if "equal" in rule and rule["equal"] == docname:
                 target = rule["builder"]
-                break
+                return self.builders[target]
             if "start" in rule and docname.startswith(rule["start"]):
                 target = rule["builder"]
-                break
+                return self.builders[target]
             if "end" in rule and docname.endswith(rule["end"]):
                 target = rule["builder"]
-                break
+                return self.builders[target]
         logger.debug(f"'{docname} is written by '{target or 'DEFAULT'}'")
-        if target is None:
-            self.default_builder.write_doc(docname, doctree)
-        elif target in self.builders:
-            self.builders[target].write_doc(docname, doctree)
-        else:
-            raise Exception("Invalid builder")
+        return self.default_builder
+
+    def write_doc_serialized(self, docname, doctree):
+        for builder in self.builders.values():
+            self.app.builder = builder
+            builder.write_doc_serialized(docname, doctree)
+            self.app.builder = self
+
+    def write_doc(self, docname: str, doctree):
+        builder = self.get_builder(docname)
+        self.app.builder = builder
+        builder.write_doc(docname, doctree)
+        self.app.builder = self
 
     def finish(self):
         for builder in self.builders.values():
+            self.app.builder = builder
             builder.finish_tasks = self.finish_tasks
             builder.finish()
+            self.app.builder = self
 
     def cleanup(self):
         for builder in self.builders.values():
+            self.app.builder = builder
             builder.cleanup()
+            self.app.builder = self
 
 
 def setup(app: Sphinx):
