@@ -30,6 +30,8 @@ class MixedBuilder(Builder):
             self.builders[name] = app.create_builder(name)
             if self.default_builder is None:
                 self.default_builder = self.builders[name]
+                self.builders.pop(name)
+        self.builders[self.default_builder.name] = self.default_builder
         app.config = config  # Recover origin
 
     def set_environment(self, env):
