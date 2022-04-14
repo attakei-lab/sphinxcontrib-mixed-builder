@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <title>複数のHTML系ビルダーをまとめて扱う謎ビルダーを作った</title>
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/dist/reveal.css" />
+    <link rel="stylesheet" href="../_static/revealjs4/dist/theme/black.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/revealjs4/plugin/highlight/zenburn.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/translations.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="prev" title="デモ" href="../slides.html" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    
+
+  </head><body>
+    <div class="reveal">
+        <div class="slides">
+            <section >
+<h1>複数のHTML系ビルダーをまとめて扱う謎ビルダーを作った</h1>
+</section>
+<section>
+<section >
+<h2>はじめに</h2>
+</section>
+<section >
+<h3>お前誰よ</h3>
+<figure class="align-default">
+<img alt="https://attakei.net/_static/images/icon-attakei.jpg" src="https://attakei.net/_static/images/icon-attakei.jpg" />
+</figure>
+<p>&#64;attakei</p>
+<ul class="simple">
+<li><p>趣味系・ライブラリ系Pythonista</p></li>
+<li><p>代表作: <code class="docutils literal notranslate"><span class="pre">sphinx-revealjs</span></code></p></li>
+</ul>
+</section>
+</section>
+<section>
+<section >
+<h2>sphinxcontrib-mixed-builder</h2>
+</section>
+<section >
+<h3>なにこれ？</h3>
+<p>変わり種のSphinx拡張の1つで、</p>
+<p><strong>「複数のビルダーを組み合わせ使う」</strong></p>
+<p>ビルダーを提供します。</p>
+</section>
+<section >
+<h3>どういうこと？</h3>
+<pre data-id="id4"><code data-trim data-noescape class="text">- index.rst
+- usage.rst
+- slides/
+  - introduce.rst
+  - sample-1.rst
+  - sample-2.rst</code></pre>
+<p>このような構成のSphinxプロジェクト</p>
+</section>
+<section >
+<h3>どういうこと？</h3>
+<pre data-id="id4"><code data-trim data-noescape class="text">- index.rst       -&gt; html
+- usage.rst       -&gt; html
+- slides/
+  - introduce.rst -&gt; html
+  - sample-1.rst  -&gt; html
+  - sample-2.rst  -&gt; html</code></pre>
+<p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">html</span></code> だと</p>
+</section>
+<section >
+<h3>どういうこと？</h3>
+<pre data-id="id4"><code data-trim data-noescape class="text">- index.rst       -&gt; revealjs
+- usage.rst       -&gt; revealjs
+- slides/
+  - introduce.rst -&gt; revealjs
+  - sample-1.rst  -&gt; revealjs
+  - sample-2.rst  -&gt; revealjs</code></pre>
+<p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">revealjs</span></code> だと</p>
+</section>
+<section >
+<h3>どういうこと？</h3>
+<pre data-id="id4"><code data-trim data-noescape class="text">- index.rst       -&gt; html
+- usage.rst       -&gt; html
+- slides/
+  - introduce.rst -&gt; revealjs
+  - sample-1.rst  -&gt; revealjs
+  - sample-2.rst  -&gt; revealjs</code></pre>
+<p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">mixed</span></code> (+適切な設定)なら</p>
+</section>
+<section >
+<h3>どういうこと？</h3>
+<p>単一ビルドなのに、HTMLとReveal.jsを同居させることが出来る！</p>
+</section>
+</section>
+<section>
+<section >
+<h2>使い方</h2>
+</section>
+<section >
+<h3>PyPI未登録です</h3>
+<pre data-id="pypi"><code data-trim data-noescape class="console">pip install git+https://github.com/attakei-lab/sphinx-mixed-builder</code></pre>
+</section>
+<section >
+<h3>conf.py</h3>
+<p>本拡張+他のビルダー拡張を追加する</p>
+<pre data-id="conf-py"><code data-trim data-noescape class="python">extensions = [
+    &quot;sphinxcontrib.mixed_builder&quot;,
+    &quot;sphinx_revealjs&quot;,
+]</code></pre>
+</section>
+<section >
+<h3>conf.py</h3>
+<p>使うビルダー群を指定する</p>
+<pre data-id="conf-py"><code data-trim data-noescape class="python">mixed_builders = [&quot;html&quot;, &quot;revealjs&quot;]</code></pre>
+</section>
+<section >
+<h3>conf.py</h3>
+<p>ビルダーの適用ルールを指定する</p>
+<pre data-id="conf-py"><code data-trim data-noescape class="python">mixed_rules = [
+    {
+        &quot;docname&quot;: &quot;slides/introduction&quot;,
+        &quot;builder&quot;: &quot;revealjs&quot;,
+    }
+]</code></pre>
+</section>
+<section >
+<h3>ビルドする</h3>
+<p><code class="docutils literal notranslate"><span class="pre">make</span></code> コマンドでビルドしつつ、Pythonのサーバーモジュールで表示確認してみましょう</p>
+<pre data-id="id6"><code data-trim data-noescape class="console">make mixed
+python -m http.server -d _build/mixed</code></pre>
+</section>
+</section>
+<section>
+<section >
+<h2>おまけ</h2>
+</section>
+<section >
+<h3>なんでこんなの作ったの？</h3>
+<p><code class="docutils literal notranslate"><span class="pre">sphinx-revealjs</span></code> で複数のスライドを管理する際に、「インデックスもReveal.js化する」問題の解消をしたかった。</p>
+</section>
+<section >
+<h3>じゃあ、なんで <code class="docutils literal notranslate"><span class="pre">sphinx-revealjs</span></code> に同梱してないの？</h3>
+<p>実装の構想したときに、「これってrevealjsに限らなくね？」って思ったため。</p>
+</section>
+</section>
+<section >
+<h2>おわり</h2>
+</section>
+
+        </div>
+    </div>
+    
+    <script src="../_static/revealjs4/dist/reveal.js"></script>
+    
+    
+      <script src="../_static/revealjs4/plugin/highlight/highlight.js"></script>
+      
+    
+    <script>
+        var revealjsConfig = new Object();
+        Object.assign(revealjsConfig, JSON.parse('{"controls": true, "progress": true, "history": true, "center": true, "transition": "none"}'));
+        
+        
+        
+          revealjsConfig.plugins = [
+            RevealHighlight,
+          ];
+        
+        // More info https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize(revealjsConfig);
+    </script>
+
+  </body>
+</html>

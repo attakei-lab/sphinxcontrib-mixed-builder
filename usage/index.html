@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="ja" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>使い方 &mdash; sphinxcontrib-mixer 0.4.1 ドキュメント</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/translations.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex/" />
+    <link rel="search" title="検索" href="../search/" />
+    <link rel="next" title="デモ" href="../slides/" />
+    <link rel="prev" title="Home" href="../" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../" class="icon icon-home"> sphinxcontrib-mixer
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">使い方</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">インストール</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">設定</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../slides/">デモ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../">sphinxcontrib-mixer</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../" class="icon icon-home"></a> &raquo;</li>
+      <li>使い方</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/usage.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>使い方<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク"></a></h1>
+<section id="id2">
+<h2>インストール<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク"></a></h2>
+<p>現在はPyPIに登録しておらず、GitHub Releases機能も利用していないため、GitHubリポジトリを直接インストール形式を取る必要があります。</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip install git+https://github.com/attakei-lab/sphinx-mixed-builder</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>設定<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">conf.py</span></code> の <code class="docutils literal notranslate"><span class="pre">extensions</span></code> には、 <code class="docutils literal notranslate"><span class="pre">sphinxcontrib.mixed_builder</span></code> を追加します。
+また、HTMLベースのカスタムビルダーを使う場合は、必要なSphinx拡張も追加します。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">extensions</span> <span class="o">=</span> <span class="p">[</span>
+<span class="linenos">2</span>    <span class="s2">&quot;sphinx.ext.intersphinx&quot;</span><span class="p">,</span>
+<span class="linenos">3</span>    <span class="s2">&quot;sphinxcontrib.mixed_builder&quot;</span><span class="p">,</span>
+<span class="linenos">4</span>    <span class="s2">&quot;sphinx_revealjs&quot;</span><span class="p">,</span>
+<span class="linenos">5</span>    <span class="s2">&quot;sphinx_rtd_theme&quot;</span><span class="p">,</span>
+<span class="linenos">6</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>この拡張向けの設定としては、次の2個が存在します。</p>
+<dl class="std confval">
+<dt class="sig sig-object std" id="confval-mixed_builders">
+<span class="sig-name descname"><span class="pre">mixed_builders</span></span><a class="headerlink" href="#confval-mixed_builders" title="この定義へのパーマリンク"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">list</span></code></p>
+</dd>
+<dt class="field-even">Default</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">[&quot;html&quot;]</span></code></p>
+</dd>
+</dl>
+<p>この拡張が実際に取り扱うビルダー名をリストで指定します。
+一番最初に指定したビルダーをデフォルトビルダーとして扱い、
+いくつかの処理はデフォルトビルダーのみを使用します。</p>
+</dd></dl>
+
+<dl class="std confval">
+<dt class="sig sig-object std" id="confval-mixed_rules">
+<span class="sig-name descname"><span class="pre">mixed_rules</span></span><a class="headerlink" href="#confval-mixed_rules" title="この定義へのパーマリンク"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">list</span></code></p>
+</dd>
+<dt class="field-even">Default</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">[]</span></code></p>
+</dd>
+</dl>
+<p>ファイル生成時にどのビルダーを使うかのルールを指定します。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="s2">&quot;progress&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="s2">&quot;history&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="s2">&quot;center&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="s2">&quot;transition&quot;</span><span class="p">:</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">revealjs_script_plugins</span> <span class="o">=</span> <span class="p">[</span>
+</pre></div>
+</div>
+<p>リストの各要素が判定ルールとなっており、最初に確定したビルダーを使用します。
+どの判定ルールにも該当しない場合は、デフォルトビルダーを使用します。</p>
+<p>各要素は、次の要素を持ちます。</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">builder</span></code> : 使用ビルダー名。Sphinxに登録されており、 <code class="docutils literal notranslate"><span class="pre">mixed_builders</span></code> に設定されているものでなければなりません。</p></li>
+<li><p>他に、ルールに該当するかの判定ように次のいずれかの要素1個（通常はソースファイル名から拡張子を除いたものになります）</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">equal</span></code> : 完全一致</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">start</span></code> : 前方一致</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">end</span></code> : 後方一致</p></li>
+</ul>
+</li>
+</ul>
+</dd></dl>
+
+<p>各ビルダー向けの設定を忘れないようにしてください。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../" class="btn btn-neutral float-left" title="Home" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../slides/" class="btn btn-neutral float-right" title="デモ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Kazuya Takei.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
